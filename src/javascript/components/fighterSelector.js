@@ -1,25 +1,18 @@
 import createElement from '../helpers/domHelper';
-import { createFightersSelector } from './fighterSelector';
-import { createFighterPreview } from './fighterPreview'; // Import the createFighterPreview function
-import fighterService from '../services/fightersService'; // Update the path for fighterService
-import { renderArena } from './arena'; // Import the renderArena function
+import renderArena from './arena';
 import versusImg from '../../../resources/versus.png';
+import { createFighterPreview } from './fighterPreview';
+import fighterService from '../services/fightersService';
 
 const fighterDetailsMap = new Map();
 
 export async function getFighterInfo(fighterId) {
-    // Check if fighter details are already in the map
     if (fighterDetailsMap.has(fighterId)) {
         return fighterDetailsMap.get(fighterId);
     }
-
-    try {
-        const fighterDetails = await fighterService.getFighterDetails(fighterId);
-        fighterDetailsMap.set(fighterId, fighterDetails);
-        return fighterDetails;
-    } catch (error) {
-        throw error;
-    }
+    const fighterInfo = await fighterService.getFighterDetails(fighterId);
+    fighterDetailsMap.set(fighterId, fighterInfo);
+    return fighterInfo;
 }
 
 function startFight(selectedFighters) {
